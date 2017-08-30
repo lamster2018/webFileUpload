@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -19,7 +20,7 @@ import com.tencent.smtt.sdk.WebView;
 
 public class MainActivity extends AppCompatActivity {
     public static final int RESULT_CODE_CHOOSE_IMAGE = 0x3001;
-
+    protected String TAG = "ceshi";
     private FrameLayout webContainer;
     private WebView x5web;
     private ValueCallback<Uri[]> uploadMessageAboveL;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         webContainer = (FrameLayout) findViewById(R.id.webContainer);
         x5web = new WebView(getApplicationContext());
+        x5web.setLayoutParams(new FrameLayout.LayoutParams(-1, -1));
         webContainer.addView(x5web);
 
         initSetting();
@@ -99,8 +101,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i(TAG, "onActivityResult: ");
         if (resultCode == Activity.RESULT_OK && requestCode == RESULT_CODE_CHOOSE_IMAGE) {
-            Uri result = Uri.parse(data.getData().getPath());
+            Uri result = data.getData();
             if (uploadMessageAboveL != null) {
                 Uri[] results = null;
                 results = new Uri[]{result};
@@ -114,14 +117,15 @@ public class MainActivity extends AppCompatActivity {
     public class WeikeWebviewChromeClient extends WebChromeClient {
         @Override
         public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> valueCallback, FileChooserParams fileChooserParams) {
+            uploadMessageAboveL = valueCallback;
             startAlbum();
             return true;
         }
 
-        @Override
-        public void openFileChooser(ValueCallback<Uri> valueCallback, String s, String s1) {
-            super.openFileChooser(valueCallback, s, s1);
-        }
+//        @Override
+//        public void openFileChooser(ValueCallback<Uri> valueCallback, String s, String s1) {
+//            super.openFileChooser(valueCallback, s, s1);
+//        }
         //    // For Android 3.0+
 //    public void openFileChooser(ValueCallback uploadMsg) {
 //        //打开图库
