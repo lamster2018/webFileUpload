@@ -18,6 +18,15 @@ import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 
+/**
+ *
+ *
+ * 参考文档
+ *
+ * http://www.jianshu.com/p/21b8a1f67e72
+ *
+ *
+ */
 public class MainActivity extends AppCompatActivity {
     public static final int RESULT_CODE_CHOOSE_IMAGE = 0x3001;
     protected String TAG = "ceshi";
